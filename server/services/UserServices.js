@@ -17,30 +17,14 @@ exports.registertion = asyncHandler(async (req, res) => {
 });
 
 exports.login = asyncHandler(async (req, res) => {
-  const user = await UserModel.findOne({
-		email: req.body.email,
-	})
+	const { username, password } = req.body;
 
-	if (!user) {
-		return { status: 'error', error: 'Invalid login' }
-	}
+	const user = await UserModel.findOne({ username });
+	!user && res.json({ msg: "user is not in correct" });
 
-	const isPasswordValid = await bcrypt.compare(
-		req.body.password,
-		user.password
-	)
+	const isPasswordVaild = await bcrypt.compare(password, user.password);
+	!isPasswordVaild && res.json({ msg: "your username or password is wrong" });
 
-	if (isPasswordValid) {
-		const token = jwt.sign(
-			{
-				username: user.username,
-				email: user.email,
-			},
-			process.env.SECRET
-		)
-
-		return res.json({ status: 'ok', user: token })
-	} else {
-		return res.json({ status: 'error', user: false })
-	}
+	const token = jwt.sign({ id: user._id }, process.env.SECERT);
+	return res.json({ token, userID: user._id });
 });

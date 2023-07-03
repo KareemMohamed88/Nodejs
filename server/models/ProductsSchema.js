@@ -1,21 +1,24 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const ProductSchema = mongoose.Schema({
-    title:{
-        type: String,
-        unique: true,
-        required: true,
+const ProductSchema = mongoose.Schema(
+  {
+    cardImage: {
+      type: String,
     },
-    price:{
-        type: String,
-        unique: true,
-        required: true,
+    title: {
+      type: String,
+      required: true,
     },
-    cardImage:{
-        type: String,
-        unique: true,
+    price: {
+      type: String,
+      required: true,
+    },
+    arr:{
+      type: Array
     }
-})
+  },
+  { timestamps: true }
+);
 
 const ProductModal = mongoose.model("products", ProductSchema);
 

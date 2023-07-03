@@ -5,11 +5,13 @@ const dbConnection = require("./config/conn");
 const ProductRoutes = require('./Routes/ProductRoutes')
 const CategoryRoutes = require("./Routes/categoryRoutes")
 const UserRoutes = require("./Routes/UserRoutes")
+const cors = require("cors")
 const app = express();
 dotenv.config({ path: "./config.env" });
 
 dbConnection();
 app.use(express.json());
+app.use(cors())
 if (process.env.ENV_MODE == "development") {
   app.use(morgan("dev"));
   console.log(`mode: ${process.env.ENV_MODE}`);

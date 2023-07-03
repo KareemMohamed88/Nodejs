@@ -1,3 +1,5 @@
+// products api
+
 const express = require("express");
 const {
   createProduct,
